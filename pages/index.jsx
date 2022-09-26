@@ -1,8 +1,11 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
+  const { data: session, status } = useSession();
+
   return (
     <div className={styles.container}>
       <Head>
@@ -15,6 +18,11 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <span className={styles.appName}>Next Todo!</span>
         </h1>
+        {session ? (
+          <button onClick={() => signOut()}>Sign out</button>
+        ) : (
+          <button onClick={() => signIn('google')}>Sign in</button>
+        )}
       </main>
     </div>
   );
