@@ -5,7 +5,7 @@ import styles from '../styles/Home.module.css';
 
 export default function Home() {
   const { data: session, status } = useSession();
-  //test
+  //testi
   return (
     <div className={styles.container}>
       <Head>
