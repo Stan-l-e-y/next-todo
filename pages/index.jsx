@@ -41,7 +41,7 @@ export default function Home() {
           </div>
           <div
             id="todoOptions"
-            className="pt-10 flex  items-stretch justify-items-center w-[40rem]"
+            className="pt-10 flex items-stretch justify-items-center w-[40rem]"
           >
             <input
               type="email"
@@ -60,11 +60,6 @@ export default function Home() {
               id="filter"
               placeholder="Search for a Todo"
             ></input>
-            <div>
-              {options.map((option) => {
-                <span key={option.id}>{option.name}</span>;
-              })}
-            </div>
 
             <div className=" w-72 ml-4">
               <Listbox value={selected} by="name" onChange={setSelected}>
