@@ -8,6 +8,7 @@ import { useEffect, useState, Fragment } from 'react';
 import Moment from 'moment';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
+import { Todo } from '../components/Todo';
 
 const options = [
   { id: 1, name: 'All' },
@@ -32,7 +33,7 @@ export default function Home() {
         <main className="flex flex-col items-center">
           <div className="flex flex-col items-center justify-center w-full">
             <h1 className="text-[4rem] pt-18">
-              Welcome to <span className="text-[#0070f3]">Next Todo!</span>
+              Welcome to <span className="text-[#0070f3]">Next Todo</span>
             </h1>
             <h2 className="pt-10 text-2xl">
               {Moment().format('dddd, MMMM Do YYYY')}
@@ -118,6 +119,28 @@ export default function Home() {
                   </Transition>
                 </div>
               </Listbox>
+            </div>
+          </div>
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6 text-green-500 mt-2"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
+
+            <div className="todo-container w-[40rem] ">
+              <Todo></Todo>
+              <Todo></Todo>
+              <Todo></Todo>
             </div>
           </div>
         </main>
