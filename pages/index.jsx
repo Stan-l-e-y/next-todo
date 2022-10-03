@@ -9,6 +9,8 @@ import Moment from 'moment';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 import { Todo } from '../components/Todo';
+import { PrismaClient } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 const options = [
   { id: 1, name: 'All' },
@@ -16,17 +18,21 @@ const options = [
   { id: 3, name: 'Not Completed' },
 ];
 
-export default function Home({}) {
+export default function Home({ todos }) {
   const { data: session, status } = useSession();
+  const [selected, setSelected] = useState(options[0]);
+
+  useEffect(() => {
+    if (session) {
+      console.log(todos);
+    }
+  });
 
   if (session) {
-    const [selected, setSelected] = useState(options[0]);
     // use state for todos, init value is page props for todos
     // useEffect to listen for any changes in the todos,
     // if todos property changes (in useState) then refetch
     // todos and setTodos with new todos
-
-    useEffect(() => {}, []);
 
     return (
       <div className="">
@@ -168,8 +174,16 @@ export async function getServerSideProps(context) {
 
   if (session) {
     //fetch all todos for loggin in user and pass to component
+    const prisma = new PrismaClient();
+
+    const todos = await prisma.todo.findMany({
+      where: {
+        userId: session.user.id,
+      },
+    });
+
     return {
-      props: {},
+      props: { todos: todos[0].title },
     };
   }
 
