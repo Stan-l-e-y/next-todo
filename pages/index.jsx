@@ -16,12 +16,18 @@ const options = [
   { id: 3, name: 'Not Completed' },
 ];
 
-export default function Home() {
+export default function Home({}) {
   const { data: session, status } = useSession();
 
-  const [selected, setSelected] = useState(options[0]);
-
   if (session) {
+    const [selected, setSelected] = useState(options[0]);
+    // use state for todos, init value is page props for todos
+    // useEffect to listen for any changes in the todos,
+    // if todos property changes (in useState) then refetch
+    // todos and setTodos with new todos
+
+    useEffect(() => {}, []);
+
     return (
       <div className="">
         <Head>
@@ -133,6 +139,7 @@ export default function Home() {
             </svg>
 
             <div className="todo-container w-[40rem] ">
+              {/* loop through and show all todos, pass the todo as a prop of the todo */}
               <Todo></Todo>
               <Todo></Todo>
               <Todo></Todo>
@@ -153,13 +160,26 @@ export default function Home() {
 }
 
 export async function getServerSideProps(context) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+
+  if (session) {
+    //fetch all todos for loggin in user and pass to component
+    return {
+      props: {},
+    };
+  }
+
   return {
     props: {
-      session: await unstable_getServerSession(
-        context.req,
-        context.res,
-        authOptions
-      ),
+      // session: await unstable_getServerSession(
+      //   context.req,
+      //   context.res,
+      //   authOptions
+      // ),
     },
   };
 }

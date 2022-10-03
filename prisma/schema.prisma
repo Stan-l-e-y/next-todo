@@ -42,6 +42,20 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  todos         Todo[]
+}
+
+model Todo {
+  id            Int       @id @default(autoincrement())
+  userId        String
+  title         String    @db.VarChar(255)
+  completed     Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  scheduled     Boolean   @default(false)
+  scheduledDate DateTime? 
+
+  user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
@@ -51,3 +65,6 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+// Todo
+//
