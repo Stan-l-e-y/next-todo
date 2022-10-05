@@ -1,10 +1,10 @@
 import React from 'react';
 import { Boop } from './Boop';
 
-export const Todo = () => {
+export const Todo = ({ todo }) => {
   return (
     <div className="flex bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700  rounded-lg px-5 py-5 mt-5">
-      <div className="basis-[83%]">todo</div>
+      <div className="basis-[83%]">{todo.title}</div>
       <div className="flex justify-between basis-[17%]">
         <Boop scale={1.15}>
           <div className="flex bg-gray-800 p-0.5 rounded-md">
