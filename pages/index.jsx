@@ -24,6 +24,11 @@ export default function Home({ todosData }) {
   const { data: session, status } = useSession();
   const [selected, setSelected] = useState(options[0]);
   const [todos, setTodos] = useState(todosData);
+  const [showAddTodo, setShowAddTodo] = useState(false);
+
+  const handleShowAddTodo = () => {
+    setShowAddTodo(true);
+  };
 
   useEffect(() => {
     if (session) {
@@ -67,7 +72,7 @@ export default function Home({ todosData }) {
                     rounded-lg
                     transition
                     ease-in-out
-                    m-0 focus:border-blue-600 focus:outline-none bg-inherit"
+                    m-0 focus:outline-none  focus-visible:ring-2  focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-600 bg-inherit"
               id="filter"
               placeholder="Search for a To-do"
             ></input>
@@ -128,22 +133,42 @@ export default function Home({ todosData }) {
             </div>
           </div>
           <div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6 text-green-500 mt-2"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 4.5v15m7.5-7.5h-15"
-              />
-            </svg>
+            {showAddTodo ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6 text-red-500 mt-2 hover:cursor-pointer"
+                onClick={() => setShowAddTodo(!showAddTodo)}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 12h-15"
+                />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6 text-green-500 mt-2 hover:cursor-pointer"
+                onClick={() => setShowAddTodo(!showAddTodo)}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+            )}
 
             <div className="todo-container w-[40rem] ">
+              {showAddTodo ? <Todo focus={showAddTodo} /> : ''}
               {todos.map((todo) => {
                 return <Todo key={todo.id} todo={todo} />;
               })}
