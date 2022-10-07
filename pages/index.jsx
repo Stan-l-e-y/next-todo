@@ -1,7 +1,5 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import styles from '../styles/Home.module.css';
 import { authOptions } from './api/auth/[...nextauth]';
 import { unstable_getServerSession } from 'next-auth/next';
 import { useEffect, useState, Fragment } from 'react';
@@ -9,8 +7,7 @@ import Moment from 'moment';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 import { Todo } from '../components/Todo';
-import { PrismaClient } from '@prisma/client';
-import { Prisma } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import safeJsonStringify from 'safe-json-stringify';
 import { Boop } from '../components/Boop';
 
@@ -96,7 +93,7 @@ export default function Home({ todosData }) {
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                   >
-                    <Listbox.Options className="absolute mt-1 bg-gray-800 max-h-60 w-full overflow-auto rounded-md  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                    <Listbox.Options className="absolute mt-1 bg-gray-800 max-h-60 w-full overflow-auto rounded-md  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
                       {options.map((option) => {
                         return (
                           <Listbox.Option
