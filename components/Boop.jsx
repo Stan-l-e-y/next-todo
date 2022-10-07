@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 
 export const Boop = ({
@@ -8,8 +8,11 @@ export const Boop = ({
   scale = 1,
   timing = 150,
   children,
+  addTodo = false,
+  opacity = 1,
 }) => {
   const [isBooped, setIsBooped] = React.useState(false);
+  const [addTransition, setAddTransition] = useState(addTodo);
 
   const style = useSpring({
     display: 'inline-block',
@@ -17,15 +20,25 @@ export const Boop = ({
     transform: isBooped
       ? `translate(${x}px, ${y}px)
          rotate(${rotation}deg)
-         scale(${scale})`
+         scale(${scale})
+         `
       : `translate(0px, 0px)
          rotate(0deg)
-         scale(1)`,
+         scale(1)
+         `,
     config: {
       tension: 300,
-      friction: 10,
+      friction: 20,
     },
+    opacity: addTodo && isBooped ? 0.85 : 1,
   });
+
+  useEffect(() => {
+    if (addTransition) {
+      trigger();
+      setAddTransition(false);
+    }
+  }, [addTransition]);
 
   React.useEffect(() => {
     if (!isBooped) {
@@ -43,7 +56,10 @@ export const Boop = ({
     setIsBooped(true);
   };
   return (
-    <animated.span onMouseEnter={trigger} style={style}>
+    <animated.span
+      {...(addTodo ? { className: 'w-[40rem]' } : { onMouseEnter: trigger })}
+      style={style}
+    >
       {children}
     </animated.span>
   );

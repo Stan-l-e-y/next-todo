@@ -22,7 +22,7 @@ export const Todo = ({ todo, focus = false }) => {
       className={`flex ${
         todo
           ? 'bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700'
-          : 'bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 shadow-lg  shadow-gray-300'
+          : 'bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 shadow-lg  shadow-blue-500'
       }   rounded-lg px-5 py-5 mt-5 `}
     >
       {todo ? <div className="basis-[83%]">{todo.title}</div> : ''}

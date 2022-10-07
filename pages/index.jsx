@@ -12,6 +12,7 @@ import { Todo } from '../components/Todo';
 import { PrismaClient } from '@prisma/client';
 import { Prisma } from '@prisma/client';
 import safeJsonStringify from 'safe-json-stringify';
+import { Boop } from '../components/Boop';
 
 const options = [
   { id: 1, name: 'All' },
@@ -134,41 +135,57 @@ export default function Home({ todosData }) {
           </div>
           <div>
             {showAddTodo ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 text-red-500 mt-2 hover:cursor-pointer"
-                onClick={() => setShowAddTodo(!showAddTodo)}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 12h-15"
-                />
-              </svg>
+              <Boop scale={1.4}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6 text-red-500 mt-2 hover:cursor-pointer"
+                  onClick={() => setShowAddTodo(!showAddTodo)}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19.5 12h-15"
+                  />
+                </svg>
+              </Boop>
             ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 text-green-500 mt-2 hover:cursor-pointer"
-                onClick={() => setShowAddTodo(!showAddTodo)}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 4.5v15m7.5-7.5h-15"
-                />
-              </svg>
+              <Boop scale={1.35} rotation={10}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6 text-green-500 mt-2 hover:cursor-pointer"
+                  onClick={() => setShowAddTodo(!showAddTodo)}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 4.5v15m7.5-7.5h-15"
+                  />
+                </svg>
+              </Boop>
             )}
 
             <div className="todo-container w-[40rem] ">
-              {showAddTodo ? <Todo focus={showAddTodo} /> : ''}
+              {showAddTodo ? (
+                <Boop
+                  scale={1.02}
+                  y={-10}
+                  timing={110}
+                  opacity={0}
+                  addTodo={showAddTodo}
+                >
+                  <Todo focus={showAddTodo} />
+                </Boop>
+              ) : (
+                ''
+              )}
               {todos.map((todo) => {
                 return <Todo key={todo.id} todo={todo} />;
               })}
