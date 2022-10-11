@@ -1,6 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Boop } from './Boop';
 import { Switch, Popover } from '@headlessui/react';
+import {
+  DatePicker,
+  LocalizationProvider,
+  AdapterMoment,
+  AdapterDayjs,
+} from '@mui/x-date-pickers';
+import MomentUtils from '@date-io/moment';
+import TextField from '@mui/material/TextField';
 
 export const Todo = ({ todo, focus = false }) => {
   const textArea = useRef(null);
@@ -8,6 +16,7 @@ export const Todo = ({ todo, focus = false }) => {
   const [hover, setHover] = useState(focus);
   const [enabled, setEnabled] = useState(false);
   const [hoverToolTip, setHoverToolTip] = useState(false);
+  const [dateValue, setDateValue] = useState(new Date('2022-02-02'));
 
   useEffect(() => {
     if (hover) {
@@ -39,61 +48,77 @@ export const Todo = ({ todo, focus = false }) => {
       {todo ? (
         ''
       ) : (
-        <>
+        <div className="flex justify-between w-full">
           <input
             ref={textArea}
             className="bg-inherit border border-solid border-slate-300 rounded-md focus:outline-none focus-visible:ring-2  focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-600 flex justify-between basis-[70%] p-2"
           ></input>
 
-          <Switch
-            checked={enabled}
-            onChange={setEnabled}
-            className={`${enabled ? 'bg-[#0071f3dc]' : 'bg-gray-800'}
-          relative inline-flex h-[20px] w-[45px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-          >
-            <span className="sr-only">Use setting</span>
-            <span
-              aria-hidden="true"
-              className={`${enabled ? 'translate-x-7' : 'translate-x-0'}
-            pointer-events-none inline-block h-[15px] w-[15px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-            />
-          </Switch>
-          <Popover>
-            {({ open }) => (
-              <>
-                <Boop scale={1.18}>
-                  <Popover.Button
-                    onMouseOver={() => handleShowHoverToolTip()}
-                    onMouseLeave={() => handleLeaveHoverToolTip()}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-6 h-6"
+          <div className="flex justify-between basis-[12%] mr-3">
+            <Switch
+              checked={enabled}
+              onChange={setEnabled}
+              className={`${enabled ? 'bg-[#0071f3dc]' : 'bg-gray-800'}
+            relative inline-flex h-[20px] w-[45px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+            >
+              <span className="sr-only">Use setting</span>
+              <span
+                aria-hidden="true"
+                className={`${enabled ? 'translate-x-6' : 'translate-x-0'}
+              pointer-events-none inline-block h-[16px] w-[16px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+              />
+            </Switch>
+            <Popover>
+              {({ open }) => (
+                <>
+                  <Boop scale={1.18}>
+                    <Popover.Button
+                      onMouseOver={() => handleShowHoverToolTip()}
+                      onMouseLeave={() => handleLeaveHoverToolTip()}
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
-                      />
-                    </svg>
-                  </Popover.Button>
-                </Boop>
-
-                {hoverToolTip && (
-                  <div className="absolute">
-                    <Popover.Panel static>
-                      <div className="relative">yoo</div>
-                    </Popover.Panel>
-                  </div>
-                )}
-              </>
-            )}
-          </Popover>
-        </>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-5 h-5"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                        />
+                      </svg>
+                    </Popover.Button>
+                  </Boop>
+                  {hoverToolTip && (
+                    <div className="absolute">
+                      <Popover.Panel static>
+                        <div className="relative">
+                          This toggle switch is for scheduling your Todo. Want
+                          your To-do to come into effect on another day other
+                          than today? Turn on the switch and select your desired
+                          day
+                        </div>
+                      </Popover.Panel>
+                    </div>
+                  )}
+                </>
+              )}
+            </Popover>
+          </div>
+          <LocalizationProvider dateAdapter={MomentUtils}>
+            <DatePicker
+              label="Basic example"
+              value={dateValue}
+              onChange={(newValue) => {
+                setDateValue(newValue);
+              }}
+              renderInput={(params) => <TextField {...params} size="small" />}
+            />
+          </LocalizationProvider>
+        </div>
       )}
       {todo ? (
         <div className="flex justify-between basis-[17%]">
