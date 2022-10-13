@@ -9,6 +9,7 @@ import {
 } from '@mui/x-date-pickers';
 import MomentUtils from '@date-io/moment';
 import TextField from '@mui/material/TextField';
+import { alpha, styled } from '@mui/material/styles';
 
 export const Todo = ({ todo, focus = false }) => {
   const textArea = useRef(null);
@@ -16,7 +17,7 @@ export const Todo = ({ todo, focus = false }) => {
   const [hover, setHover] = useState(focus);
   const [enabled, setEnabled] = useState(false);
   const [hoverToolTip, setHoverToolTip] = useState(false);
-  const [dateValue, setDateValue] = useState(new Date('2022-02-02'));
+  const [dateValue, setDateValue] = useState(new Date());
 
   useEffect(() => {
     if (hover) {
@@ -36,6 +37,26 @@ export const Todo = ({ todo, focus = false }) => {
     textArea.current.focus();
   }
 
+  const CssTextField = styled(TextField)({
+    '& label.Mui-focused': {
+      color: 'white',
+    },
+    '& label.Mui': {
+      color: 'white',
+    },
+
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'white',
+        // color: 'white',
+      },
+      color: 'white',
+    },
+    '& .MuiOutlinedInput-root:hover': {
+      color: 'white',
+    },
+  });
+
   return (
     <div
       className={`flex ${
@@ -48,13 +69,14 @@ export const Todo = ({ todo, focus = false }) => {
       {todo ? (
         ''
       ) : (
-        <div className="flex justify-between w-full">
+        <div className="flex w-full">
           <input
             ref={textArea}
-            className="bg-inherit border border-solid border-slate-300 rounded-md focus:outline-none focus-visible:ring-2  focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-600 flex justify-between basis-[70%] p-2"
+            className="bg-inherit border border-solid border-slate-300 rounded-md focus:outline-none focus-visible:ring-2  focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-600 flex basis-[50%] p-2"
+            placeholder="Enter your task here"
           ></input>
 
-          <div className="flex justify-between basis-[12%] mr-3">
+          <div className="flex justify-between basis-[11%] ml-[2%] mr-[2%]  items-center">
             <Switch
               checked={enabled}
               onChange={setEnabled}
@@ -75,6 +97,7 @@ export const Todo = ({ todo, focus = false }) => {
                     <Popover.Button
                       onMouseOver={() => handleShowHoverToolTip()}
                       onMouseLeave={() => handleLeaveHoverToolTip()}
+                      className="flex items-center mt-1.5 "
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +118,7 @@ export const Todo = ({ todo, focus = false }) => {
                   {hoverToolTip && (
                     <div className="absolute">
                       <Popover.Panel static>
-                        <div className="relative">
+                        <div className="relative bg-slate-500 p-3 z-50">
                           This toggle switch is for scheduling your Todo. Want
                           your To-do to come into effect on another day other
                           than today? Turn on the switch and select your desired
@@ -108,16 +131,23 @@ export const Todo = ({ todo, focus = false }) => {
               )}
             </Popover>
           </div>
-          <LocalizationProvider dateAdapter={MomentUtils}>
-            <DatePicker
-              label="Basic example"
-              value={dateValue}
-              onChange={(newValue) => {
-                setDateValue(newValue);
-              }}
-              renderInput={(params) => <TextField {...params} size="small" />}
-            />
-          </LocalizationProvider>
+          {enabled && (
+            <div className="flex basis-[35%]">
+              <LocalizationProvider dateAdapter={MomentUtils}>
+                <DatePicker
+                  label="Basic example"
+                  value={dateValue}
+                  disablePast={true}
+                  onChange={(newValue) => {
+                    setDateValue(newValue);
+                  }}
+                  renderInput={(params) => (
+                    <CssTextField {...params} size="small" label="" />
+                  )}
+                />
+              </LocalizationProvider>
+            </div>
+          )}
         </div>
       )}
       {todo ? (

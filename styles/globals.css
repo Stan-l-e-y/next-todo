@@ -32,3 +32,7 @@ a {
 .myBlue {
   color: #0070f3;
 }
+
+.MuiTextField-root {
+  color: #7770f0;
+}
