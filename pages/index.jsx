@@ -130,63 +130,82 @@ export default function Home({ todosData }) {
               </Listbox>
             </div>
           </div>
-          <div>
-            {showAddTodo ? (
-              <Boop scale={1.4}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6 text-red-500 mt-2 hover:cursor-pointer"
-                  onClick={() => setShowAddTodo(!showAddTodo)}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19.5 12h-15"
-                  />
-                </svg>
-              </Boop>
-            ) : (
-              <Boop scale={1.35} rotation={10}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6 text-green-500 mt-2 hover:cursor-pointer"
-                  onClick={() => setShowAddTodo(!showAddTodo)}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 4.5v15m7.5-7.5h-15"
-                  />
-                </svg>
-              </Boop>
-            )}
-
-            <div className="todo-container w-[40rem] ">
+          <div className="w-[50rem] ml-40 flex">
+            <div>
               {showAddTodo ? (
-                <Boop
-                  scale={1.02}
-                  y={-10}
-                  timing={110}
-                  opacity={0}
-                  addTodo={showAddTodo}
-                >
-                  <Todo focus={showAddTodo} />
+                <Boop scale={1.4}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6 text-red-500 mt-2 hover:cursor-pointer"
+                    onClick={() => setShowAddTodo(!showAddTodo)}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19.5 12h-15"
+                    />
+                  </svg>
                 </Boop>
               ) : (
-                ''
+                <Boop scale={1.35} rotation={10}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6 text-green-500 mt-2 hover:cursor-pointer"
+                    onClick={() => setShowAddTodo(!showAddTodo)}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15"
+                    />
+                  </svg>
+                </Boop>
               )}
-              {todos.map((todo) => {
-                return <Todo key={todo.id} todo={todo} />;
-              })}
+              <div className="todo-container w-[40rem] flex flex-col ">
+                {showAddTodo ? (
+                  <Boop
+                    scale={1.02}
+                    y={-10}
+                    timing={110}
+                    opacity={0}
+                    addTodo={showAddTodo}
+                  >
+                    <Todo focus={showAddTodo} />
+                  </Boop>
+                ) : (
+                  ''
+                )}
+                {todos.map((todo) => {
+                  return <Todo key={todo.id} todo={todo} />;
+                })}
+              </div>
             </div>
+            {showAddTodo ? (
+              <Boop
+                scale={1.02}
+                y={-10}
+                timing={110}
+                opacity={0}
+                addTodo={showAddTodo}
+              >
+                <div className="relative">
+                  {/* pass click event to todo component */}
+                  <button className="relative top-[5.5rem] ml-2" type="submit">
+                    submit
+                  </button>
+                </div>
+              </Boop>
+            ) : (
+              ''
+            )}
           </div>
         </main>
       </div>

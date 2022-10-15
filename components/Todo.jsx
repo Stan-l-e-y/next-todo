@@ -10,14 +10,25 @@ import {
 import MomentUtils from '@date-io/moment';
 import TextField from '@mui/material/TextField';
 import { alpha, styled } from '@mui/material/styles';
+import { useForm } from 'react-hook-form';
 
 export const Todo = ({ todo, focus = false }) => {
   const textArea = useRef(null);
 
+  //state for hovering create,edit,delete icons
   const [hover, setHover] = useState(focus);
+  //state for conditionally displaying the date input
   const [enabled, setEnabled] = useState(false);
   const [hoverToolTip, setHoverToolTip] = useState(false);
   const [dateValue, setDateValue] = useState(new Date());
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => console.log(data);
 
   useEffect(() => {
     if (hover) {
@@ -61,33 +72,32 @@ export const Todo = ({ todo, focus = false }) => {
     <div
       className={`flex ${
         todo
-          ? 'bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700'
-          : 'bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 shadow-lg  shadow-blue-500'
+          ? 'bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 '
+          : 'bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 shadow-lg  shadow-blue-500 basis-[90%] '
       }   rounded-lg px-5 py-5 mt-5 `}
     >
       {todo ? <div className="basis-[83%]">{todo.title}</div> : ''}
       {todo ? (
         ''
       ) : (
-        <div className="flex w-full">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex w-full">
           <input
             ref={textArea}
             className="bg-inherit border border-solid border-slate-300 rounded-md focus:outline-none focus-visible:ring-2  focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-600 flex basis-[50%] p-2"
+            // {...register('textArea')}
             placeholder="Enter your task here"
           ></input>
-
           <div className="flex justify-between basis-[11%] ml-[2%] mr-[2%]  items-center">
             <Switch
               checked={enabled}
               onChange={setEnabled}
               className={`${enabled ? 'bg-[#0071f3dc]' : 'bg-gray-800'}
-            relative inline-flex h-[20px] w-[45px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+              relative inline-flex h-[20px] w-[45px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
             >
-              <span className="sr-only">Use setting</span>
               <span
                 aria-hidden="true"
                 className={`${enabled ? 'translate-x-6' : 'translate-x-0'}
-              pointer-events-none inline-block h-[16px] w-[16px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                pointer-events-none inline-block h-[16px] w-[16px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
               />
             </Switch>
             <Popover>
@@ -148,7 +158,10 @@ export const Todo = ({ todo, focus = false }) => {
               </LocalizationProvider>
             </div>
           )}
-        </div>
+          {/* <button className="absolute bottom-1 " type="submit">
+            submit
+          </button> */}
+        </form>
       )}
       {todo ? (
         <div className="flex justify-between basis-[17%]">
